@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+
+# Windows Desktop
+Thumbs.db
+
+# Bugs caused by packaging
+**/.actionInfoStore
+
+# Editors
+*.swp
+.idea/
+.vscode/
+
+# packaged plugin (keep src, rebuild on release)
+dist/

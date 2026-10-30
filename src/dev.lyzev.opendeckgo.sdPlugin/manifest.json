@@ -1,0 +1,40 @@
+{
+  "Actions": [
+    {
+      "Icon": "resources/actionIcon",
+      "Name": "OpenCode Go Usage",
+      "States": [
+        {
+          "Image": "resources/actionIcon",
+          "TitleAlignment": "bottom",
+          "FontSize": "18"
+        }
+      ],
+      "SupportedInMultiActions": true,
+      "Tooltip": "Show OpenCode Go subscription usage: rolling, weekly and monthly limits",
+      "UUID": "dev.lyzev.opendeckgo.action"
+    }
+  ],
+  "SDKVersion": 2,
+  "Author": "Lyzev",
+  "CodePath": "plugin/main.html",
+  "Description": "Show OpenCode Go subscription usage: rolling, weekly and monthly limits",
+  "Name": "OpenDeckGo",
+  "Icon": "resources/pluginIcon",
+  "PropertyInspectorPath": "pi/main_pi.html",
+  "URL": "https://github.com/Lyzev",
+  "Version": "1.0.0",
+  "OS": [
+    {
+      "Platform": "mac",
+      "MinimumVersion": "10.11"
+    },
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Software": {
+    "MinimumVersion": "4.1"
+  }
+}

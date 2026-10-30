@@ -1,0 +1,26 @@
+name: release
+on:
+  push:
+    tags: ["v*"]
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify version matches tag
+        run: |
+          TAG="${GITHUB_REF#refs/tags/v}"
+          [ "$(node -p "require('./src/dev.lyzev.opendeckgo.sdPlugin/manifest.json').Version")" = "$TAG" ] || {
+            echo "manifest Version does not match tag"; exit 1; }
+      - run: node test/test.js
+      - name: Package plugin
+        run: |
+          mkdir -p dist
+          cd src
+          zip -r ../dist/dev.lyzev.opendeckgo.streamDeckPlugin dev.lyzev.opendeckgo.sdPlugin >/dev/null
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/dev.lyzev.opendeckgo.streamDeckPlugin
+          generate_release_notes: true

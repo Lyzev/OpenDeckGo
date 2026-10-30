@@ -1,0 +1,37 @@
+<!doctypehtml>
+<meta charset="utf-8"><title>dev.lyzev.opendeckgo.pi</title>
+<link href="sdpi.css" rel="stylesheet">
+<script src="main_pi.js"></script>
+<body>
+<div class="hidden sdpi-wrapper">
+    <div class="sdpi-item">
+        <summary>Please do not set a custom title or image for this plugin as they are being generated on the fly!</summary>
+    </div>
+    <div class="sdpi-heading">API SETUP</div>
+    <div class="sdpi-item">
+        <div class="sdpi-item-label">OpenCode Go API key</div>
+        <input class="sdpi-item-value" type="password" id="apiKey" onchange="updateSettings()"
+               placeholder="paste your key"
+               title="Get or renew your API key at opencode.ai/console. The plugin reads your OpenCode Go subscription usage with it.">
+    </div>
+    <div class="sdpi-item">
+        <div class="sdpi-item-label">Displayed metric</div>
+        <select class="sdpi-item-value select" id="metric" onchange="updateSettings()">
+            <option value="rolling">Rolling (5 hours)
+            <option value="weekly">Weekly
+            <option value="monthly">Monthly
+            <option value="all">All three (compact)
+        </select></div>
+    <div class="sdpi-item">
+        <div class="sdpi-item-label">Fetch frequency</div>
+        <select class="sdpi-item-value select" id="frequency" onchange="updateSettings()">
+            <option value="900000">15 Minutes
+            <option value="1800000">30 Minutes
+            <option value="3600000">1 Hour
+            <option value="0">On push
+        </select></div>
+    <div class="sdpi-item">
+        <button class="sdpi-item-value" onclick='openPage("opencode.ai/console")'>Manage key</button>
+        <button class="sdpi-item-value" onclick='openPage("github.com/Lyzev/OpenDeckGo/issues/new?template=bug_report.md")'>Report bug</button>
+    </div>
+</div>
