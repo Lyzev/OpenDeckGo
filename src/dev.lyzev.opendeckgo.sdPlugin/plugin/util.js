@@ -34,13 +34,12 @@ let util;
         return String(message).replace(/[\u0000-\u001f\u007f]/g, "").trim().slice(0, maxLen);
     }
 
-    // One display row per window; "" resets means "unknown".
+    // One display row per window.
     function rows(usage, now) {
         if (!usage || !usage.rolling || !usage.weekly || !usage.monthly) return null;
         return [usage.rolling, usage.weekly, usage.monthly].map((item, i) => ({
             label: ["rolling", "weekly", "monthly"][i],
             percent: clampPercent(item.percent),
-            bar: bar(item.percent),
             status: statusOf(item),
             reset: resetIn(item.resetsAt, now),
         }));

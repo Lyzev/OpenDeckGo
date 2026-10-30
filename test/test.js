@@ -40,9 +40,9 @@ assert.deepStrictEqual(rows({
     weekly: {status: "ok", percent: 50, resetsAt: new Date(now + 3 * 86400000).toISOString()},
     monthly: {status: "rate-limited", percent: 100, resetsAt: new Date(now + 20 * 86400000).toISOString()},
 }, now), [
-    {label: "rolling", percent: 25, bar: "██░░░░░░", status: "ok", reset: "30m"},
-    {label: "weekly", percent: 50, bar: "████░░░░", status: "ok", reset: "3d"},
-    {label: "monthly", percent: 100, bar: "████████", status: "rate-limited", reset: "20d"},
+    {label: "rolling", percent: 25, status: "ok", reset: "30m"},
+    {label: "weekly", percent: 50, status: "ok", reset: "3d"},
+    {label: "monthly", percent: 100, status: "rate-limited", reset: "20d"},
 ]);
 
 console.log("all util tests passed");
