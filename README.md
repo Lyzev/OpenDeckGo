@@ -4,6 +4,8 @@ Stream Deck plugin showing your OpenCode Go subscription usage (rolling, weekly,
 
 Each key shows a percent, a colored usage bar (green = ok, red = rate-limited) with the reset countdown inside, and the metric name. Three data rows all on one key if you pick `All three (compact)`.
 
+![fix your internet](img.png)
+
 ## Settings
 
 - **API key**: your OpenCode Go key from [opencode.ai/console](https://opencode.ai/console)
