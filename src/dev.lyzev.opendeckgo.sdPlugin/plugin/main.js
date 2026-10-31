@@ -13,7 +13,7 @@ function connectElgatoStreamDeckSocket(inPort, inPluginUUID, inRegisterEvent, in
 
     websocket.onmessage = (evt) => {
         const jsonObj = JSON.parse(evt.data);
-        const {event, context, payload} = jsonObj;
+        const {event, context} = jsonObj;
 
         if (event === "willAppear") {
             // replace any existing entry so re-added keys don't draw twice
