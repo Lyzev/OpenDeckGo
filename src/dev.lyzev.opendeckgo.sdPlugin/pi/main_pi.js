@@ -1,8 +1,7 @@
-let websocket = null, uuid = null, actionInfo = {};
+let websocket = null, uuid = null;
 
 function connectElgatoStreamDeckSocket(inPort, inPropertyInspectorUUID, inRegisterEvent, inInfo, inActionInfo) {
     uuid = inPropertyInspectorUUID;
-    actionInfo = JSON.parse(inActionInfo);
     websocket = new WebSocket("ws://localhost:" + inPort);
     websocket.onopen = function () {
         let json = {
@@ -18,16 +17,16 @@ function connectElgatoStreamDeckSocket(inPort, inPropertyInspectorUUID, inRegist
         const jsonObj = JSON.parse(evt.data);
         if (jsonObj.event === "didReceiveSettings") {
             const payload = jsonObj.payload.settings;
-            initiateElement("apiKey", payload.apiKey);
-            initiateElement("metric", payload.metric, "rolling");
-            initiateElement("frequency", payload.frequency, 900000);
+            setElement("apiKey", payload.apiKey);
+            setElement("metric", payload.metric, "rolling");
+            setElement("frequency", payload.frequency, 900000);
             const el = document.querySelector(".sdpi-wrapper");
             el && el.classList.remove("hidden");
         }
     };
 }
 
-function initiateElement(element, value, fallback = "") {
+function setElement(element, value, fallback = "") {
     if (typeof value === "undefined") {
         document.getElementById(element).value = fallback;
         return;

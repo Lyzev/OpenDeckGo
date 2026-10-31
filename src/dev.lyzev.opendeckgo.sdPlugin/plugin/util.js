@@ -7,7 +7,7 @@ let util;
     function bar(percent) {
         const p = clampPercent(percent);
         const filled = Math.round((p / 100) * BAR_WIDTH);
-        return "█".repeat(filled) + "░".repeat(BAR_WIDTH - filled);
+        return "#".repeat(filled) + "-".repeat(BAR_WIDTH - filled);
     }
 
     function clampPercent(percent) {

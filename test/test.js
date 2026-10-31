@@ -9,10 +9,10 @@ assert.strictEqual(clampPercent(120), 100);
 assert.strictEqual(clampPercent(NaN), 0);
 
 // bar rendering across the full width
-assert.strictEqual(bar(0), "░░░░░░░░");
-assert.strictEqual(bar(100), "████████");
-assert.strictEqual(bar(50), "████░░░░");
-assert.strictEqual(bar(120), "████████");
+assert.strictEqual(bar(0), "--------");
+assert.strictEqual(bar(100), "########");
+assert.strictEqual(bar(50), "####----");
+assert.strictEqual(bar(120), "########");
 
 // reset countdown formatting
 const now = Date.UTC(2026, 0, 1, 12, 0);

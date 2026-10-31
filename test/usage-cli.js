@@ -20,7 +20,7 @@ fetch("https://opencode.ai/zen/go/v1/usage", {headers: {authorization: `Bearer $
             console.error("unexpected response:", JSON.stringify(json)?.slice(0, 300));
             process.exit(1);
         }
-        for (const row of r) console.log(`${row.label.padEnd(8)} ${bar(row.percent)} ${row.percent}% ${(row.status === "rate-limited" ? "✕" : "✓")} resets in ${row.reset}`);
+        for (const row of r) console.log(`${row.label.padEnd(8)} ${bar(row.percent)} ${row.percent}% ${row.status} resets in ${row.reset}`);
     })
     .catch(err => {
         console.error("request failed:", err.message);

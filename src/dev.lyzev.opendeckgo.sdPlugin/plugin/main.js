@@ -45,7 +45,6 @@ function refresh(jsonObj, context) {
     sendRequest(context, s.apiKey, s.metric);
     clearInterval(timers.get(context));
     if (frequency) timers.set(context, setInterval(() => sendRequest(context, s.apiKey, s.metric), frequency));
-    // shortcut: keyDown replaces the previous interval via timers.set, so repeated presses don't stack
 }
 
 async function fetchUsage(apiKey, context, callback) {
@@ -64,7 +63,7 @@ async function fetchUsage(apiKey, context, callback) {
     const json = await res.json().catch(() => null);
     clearTimeout(timer);
     if (!res.ok) {
-        const err = json?.error?.code === "api_key_expired" ? "key expired — renew at opencode.ai/console"
+        const err = json?.error?.code === "api_key_expired" ? "key expired, renew at opencode.ai/console"
             : `HTTP ${res.status} ${util.sanitize(json?.error?.message ?? "", 60)}`;
         sendWs({event: "showAlert", context});
         showError(context, err);
@@ -105,15 +104,11 @@ const rowMetricIndex = metric => Math.max(0, METRICS.indexOf(metric));
 function showError(context, message) {
     // 144x144 key: render the message wrapped, plus the alert sound/event.
     const lines = String(message).match(/.{1,18}(\s|$)|\S+/g) || ["error"];
-    drawTextTitle("⚠ error", lines.slice(0, 5), COLOR_BAD, context);
+    drawTextTitle("error", lines.slice(0, 5), COLOR_BAD, context);
 }
 
-// Single-metric keys draw everything on canvas (percent, bar, then the metric
-// name with the reduced reset under it). The native title stays empty on
-// purpose: it can only be bottom-aligned and would overlap the canvas text.
+// Single-metric key: percent, bar, reset inside it, metric name under it.
 function drawSingle(row, context) {
-    sendWs({event: "setTitle", context, payload: {title: ""}});
-    if (!row) return drawCompact(null, context);
     const canvas = document.getElementById("idCanvas");
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -124,7 +119,6 @@ function drawSingle(row, context) {
     ctx.font = "bold 52px Arial";
     ctx.fillText(`${Math.round(row.percent)}%`, canvas.width / 2, 54);
 
-    // usage bar, thick and centered under the percent
     ctx.fillStyle = COLOR_TRACK;
     roundRect(ctx, 16, 70, 112, 24, 12);
     ctx.fill();
@@ -135,7 +129,7 @@ function drawSingle(row, context) {
     // reset inside the bar: white reads on both the fill and the track
     ctx.fillStyle = "white";
     ctx.font = "bold 14px Arial";
-    ctx.fillText(`↻ ${row.reset || "—"}`, canvas.width / 2, 87);
+    ctx.fillText(`resets in ${row.reset || "?"}`, canvas.width / 2, 87);
 
     ctx.fillStyle = "white";
     ctx.font = "bold 22px Arial";
@@ -150,7 +144,7 @@ function drawCompact(rows, context) {
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    (rows || []).forEach((row, i) => {
+    rows.forEach((row, i) => {
         const y = 6 + i * 46;
         const c = colorOf(row);
 
@@ -161,9 +155,9 @@ function drawCompact(rows, context) {
         ctx.textAlign = "right";
         ctx.fillStyle = COLOR_MUTED;
         ctx.font = "bold 14px Arial";
-        ctx.fillText(`↻ ${row.reset}`, 140, y + 12);
+        ctx.fillText(`in ${row.reset}`, 140, y + 12);
 
-        // usage bar as shapes: far more readable than glyph characters
+        // usage bar
         ctx.fillStyle = COLOR_TRACK;
         roundRect(ctx, 6, y + 20, 100, 14, 7);
         ctx.fill();
@@ -175,12 +169,6 @@ function drawCompact(rows, context) {
         ctx.font = "bold 15px Arial";
         ctx.fillText(`${Math.round(row.percent)}%`, 140, y + 32);
     });
-    if (!rows) {
-        ctx.fillStyle = COLOR_BAD;
-        ctx.font = "bold 16px Arial";
-        ctx.textAlign = "center";
-        ctx.fillText("no data", canvas.width / 2, canvas.height / 2);
-    }
 
     sendWs({event: "setImage", context, payload: {image: canvas.toDataURL()}});
 }
